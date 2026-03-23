@@ -1,23 +1,24 @@
 import { useState } from 'react'
-import '../css/login.css'
+import '../css/reset-password.css'
 import { useNavigate } from 'react-router-dom'
 
-function Login() {
-  const [identifiant, setIdentifiant] = useState('')
-  const [password, setPassword] = useState('')
+function ResetPassword() {
+  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-
-  const handleLogin = async () => {
+  const navigate=useNavigate()
+  const handleReset = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/users/login?identifiant=${identifiant}&password=${password}`,
+        `http://localhost:8080/api/users/resetPassword?email=${email}`,
         { method: 'POST' }
       )
 
+      const data = await response.text()
       if (response.ok) {
-        setMessage('Connexion réussie ✅')
-      } else {
-        setMessage('Email ou mot de passe incorrect ❌')
+        setMessage(data)
+      } 
+      else {
+        setMessage(data)
       }
     } catch (error) {
       setMessage('Erreur de connexion au serveur ❌')
@@ -25,32 +26,24 @@ function Login() {
   }
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2>Connexion</h2>
+    <div className="reset-container">
+      <div className="reset-box">
+        <h2>Reset Password </h2>
 
         <input
-          type="identifiant"
-          placeholder="Email ou Nom d'utilisateur"
-          value={identifiant}
-          onChange={(e) => setIdentifiant(e.target.value)}
+          type="email"
+          placeholder="Entrer votre email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button onClick={handleLogin}>Se connecter</button>
-        <a href='/'>Pas de compte ? Inscrivez-vous</a>
-        <a href='/reset-password'>Mot de passe oublié ?</a>
+        <button onClick={handleReset}>Recevoir le nouveau mot de passe</button>
+        <button onClick={() => navigate('/Login')}>Retour à la page de connexion</button>
 
         {message && <p className="message">{message}</p>}
       </div>
     </div>
   )
-}
+}   
 
-export default Login
+export default ResetPassword

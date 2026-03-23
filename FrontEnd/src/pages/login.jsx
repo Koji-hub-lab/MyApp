@@ -30,7 +30,7 @@ function Login() {
         <h2>Connexion</h2>
 
         <input
-          type="identifiant"
+          type="text"
           placeholder="Email ou Nom d'utilisateur"
           value={identifiant}
           onChange={(e) => setIdentifiant(e.target.value)}

@@ -55,8 +55,7 @@ public class UserController {
 
     @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestParam String email) {
-        userService.resetPassword(email);
-        return ResponseEntity.ok("ok");
+        return userService.resetPassword(email);
     }
 
     @DeleteMapping("/{id}")
