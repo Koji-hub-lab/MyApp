@@ -45,6 +45,42 @@ public class UserService {
         return null;
     }
 
+    public ResponseEntity<String> updatePassword(Long id,String password) {
+        UserEntity existantUser = userRepository.findById(id).orElse(null);
+        if (existantUser != null) {
+            existantUser.setPassword(password);
+            userRepository.save(existantUser);
+            return ResponseEntity.ok("Mot de passe modifier");
+        }
+        return null;
+    }
+
+    private String genererMotDePasseTemporaire() {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder mdp = new StringBuilder();
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < 8; i++) {
+            mdp.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        }
+        return mdp.toString();
+    }
+
+    public ResponseEntity<String> resetPassword(String email) {
+        UserEntity user = userRepository.findByEmail(email);
+    
+        if (user == null) {
+            return ResponseEntity.status(404).body("Aucun compte associe a cet email");
+        }
+    
+        // Generer un mot de passe temporaire
+        String nouveauMotDePasse = genererMotDePasseTemporaire();
+    
+        user.setPassword(nouveauMotDePasse);
+        userRepository.save(user);
+    
+        return ResponseEntity.ok("Nouveau mot de passe : " + nouveauMotDePasse);
+    }
+
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -65,8 +101,11 @@ public class UserService {
         }
     }*/
 
-    public ResponseEntity<String> loginUser(String email, String password) {
-        UserEntity existant = userRepository.findByEmail(email);
+    public ResponseEntity<String> loginUser(String identifiant ,String password) {
+        UserEntity existant = userRepository.findByEmail(identifiant);
+        if (existant == null) {
+            existant = userRepository.findByNom(identifiant);
+        }
         
         if (existant != null) {
             if (existant.getPassword().equals(password)) {
