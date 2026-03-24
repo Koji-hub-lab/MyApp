@@ -11,7 +11,7 @@ public class UserEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="nom", nullable = false)
+    @Column(name="nom", nullable = false, unique = true)
     private String nom;
 
     @Column(name="prenom", nullable= false)
@@ -21,7 +21,7 @@ public class UserEntity{
     private String email;
 
     @Column(name = "telephone",nullable = false)
-    private long telephone;
+    private String telephone;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -44,12 +44,13 @@ public class UserEntity{
     public UserEntity(){}
 
     // constructeur avec parametres
-    public UserEntity(String nom,String prenom,String email,String password,Status status){
+    public UserEntity(String nom,String prenom,String telephone,String email,String password,Status status){
         this.nom=nom;
         this.prenom=prenom;
         this.email=email;
+        this.telephone=telephone;
         this.password=password;
-        this.status=status;
+        this.status=Status.ACTIF;
         this.createdAt=java.time.LocalDateTime.now();
         this.lastLogin=null;
         this.role=Role.VENDEUR;
@@ -86,6 +87,14 @@ public class UserEntity{
 
     public void setEmail(String email){
         this.email=email;
+    }
+    
+    public String getTelephone(){
+        return telephone;
+    }
+
+    public void setTelephone(String telephone){
+        this.telephone=telephone;
     }
     
     public String getPassword(){

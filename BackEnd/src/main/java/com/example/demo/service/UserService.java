@@ -38,7 +38,9 @@ public class UserService {
         if (existantUser != null) {
             existantUser.setNom(user.getNom());
             existantUser.setEmail(user.getEmail());
+            existantUser.setPassword(user.getPassword());
             existantUser.setPrenom(user.getPrenom());
+            existantUser.setTelephone(user.getTelephone());
             existantUser.setStatus(user.getStatus());
             existantUser.setRole(user.getRole());
             existantUser.setCreatedAt(user.getCreatedAt());
