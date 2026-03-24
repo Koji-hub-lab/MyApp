@@ -6,6 +6,7 @@ function Login() {
   const [identifiant, setIdentifiant] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleLogin = async () => {
     try {
@@ -13,9 +14,27 @@ function Login() {
         `http://localhost:8080/api/users/login?identifiant=${identifiant}&password=${password}`,
         { method: 'POST' }
       )
-
+      const roleRecu = await response.text()
+      console.log('Role recu:', roleRecu)
       if (response.ok) {
-        setMessage('Connexion réussie ✅')
+        if(roleRecu === 'ADMIN') {
+          navigate('/')
+        }
+        if(roleRecu === 'VENDEUR') {
+          navigate('/vendeur')
+        }
+        if(roleRecu === 'GESTIONNAIRE_ENTREPOT') {
+          navigate('/gestionnaire-entrepot')
+        }
+        if(roleRecu === 'GESTIONNAIRE_BOUTIQUE') {
+          navigate('/gestionnaire-boutique')
+        }
+        if(roleRecu === 'COMPTABLE') {
+          navigate('/comptable')
+        }
+        if(roleRecu === 'OPERATEUR') {
+          navigate('/operateur')
+        }
       } else {
         setMessage('Email ou mot de passe incorrect ❌')
       }

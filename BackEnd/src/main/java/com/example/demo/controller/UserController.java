@@ -74,8 +74,7 @@ public class UserController {
         @RequestParam String identifiant, 
         @RequestParam String password) {
         
-        userService.loginUser(identifiant, password);
-        return ResponseEntity.ok("ok"); 
+        return userService.loginUser(identifiant, password); 
     }
     
 

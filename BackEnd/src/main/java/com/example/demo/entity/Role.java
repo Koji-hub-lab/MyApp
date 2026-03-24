@@ -1,0 +1,5 @@
+package com.example.demo.entity;
+
+public enum Role {
+    ADMIN, GESTIONNAIRE_ENTREPOT, GESTIONNAIRE_BOUTIQUE, VENDEUR,COMPTABLE,OPERATEUR
+}

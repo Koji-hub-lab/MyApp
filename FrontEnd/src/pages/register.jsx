@@ -7,6 +7,8 @@ function Register() {
   const [password, setPassword] = useState('')
   const [prenom, setPrenom] = useState('')
   const [nom, setNom] = useState('')
+  const [role, setRole] = useState('VENDEUR')
+  const [telephone, setTelephone]=useState('')
   const navigate = useNavigate()
   //const [status, setStatus] = useState('')
   const [message, setMessage] = useState('')
@@ -20,12 +22,30 @@ function Register() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ nom, prenom, email, password, status:"ACTIF"})
+          body: JSON.stringify({ nom, prenom, email,telephone,role, password, status:"ACTIF"})
         }
       )
 
       if (response.ok) {
-        navigate('/Login')
+        if(role === 'ADMIN') {
+          navigate('/Login')
+        }
+        if(role === 'VENDEUR') {
+          setMessage('Inscription réussie ✅ Veuillez vous connecter pour accéder à votre espace vendeur')
+        }
+        if(role === 'GESTIONNAIRE_ENTREPOT') {
+          setMessage('Inscription réussie ✅ Veuillez vous connecter pour accéder à votre espace gestionnaire entrepot')
+        }
+        if(role === 'GESTIONNAIRE_BOUTIQUE') {
+          setMessage('Inscription réussie ✅ Veuillez vous connecter pour accéder à votre espace gestionnaire boutique')
+        }
+        if(role === 'COMPTABLE') {
+          setMessage('Inscription réussie ✅ Veuillez vous connecter pour accéder à votre espace comptable')
+        }
+        if(role === 'OPERATEUR') {
+          setMessage('Inscription réussie ✅ Veuillez vous connecter pour accéder à votre espace operateur')
+        }
+
       } else {
         setMessage('Un utilisateur avec cet email existe déjà ❌')
       }
@@ -59,6 +79,25 @@ function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        <input
+          type="text"
+          placeholder="Telephone"
+          value={telephone}
+          onChange={(e) => setTelephone(e.target.value)}
+        />
+
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="VENDEUR">Vendeur</option>
+          <option value="GESTIONNAIRE_ENTREPOT">Gestionnaire Entrepot</option>
+          <option value="GESTIONNAIRE_BOUTIQUE">Gestionnaire Boutique</option>
+          <option value="COMPTABLE">Comptable</option>
+          <option value="OPERATEUR">Operateur</option>
+          <option value="ADMIN">Administrateur</option>
+        </select>
 
         <input
           type="password"

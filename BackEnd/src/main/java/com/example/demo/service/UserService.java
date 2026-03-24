@@ -9,8 +9,6 @@ import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties.Apiversion.Use;
 import org.springframework.stereotype.Service;
-
-import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service
@@ -40,6 +38,11 @@ public class UserService {
         if (existantUser != null) {
             existantUser.setNom(user.getNom());
             existantUser.setEmail(user.getEmail());
+            existantUser.setPrenom(user.getPrenom());
+            existantUser.setStatus(user.getStatus());
+            existantUser.setRole(user.getRole());
+            existantUser.setCreatedAt(user.getCreatedAt());
+            existantUser.setLastLogin(user.getLastLogin());
             return userRepository.save(existantUser);
         }
         return null;
@@ -110,10 +113,9 @@ public class UserService {
         if (existant != null) {
             if (existant.getPassword().equals(password)) {
                 System.out.println("Connexion Reussie");
-                return ResponseEntity.ok("Connexion Reussie");
+                return ResponseEntity.ok(existant.getRole().toString());
             } else {
-                System.out.println("Email ou mot de passe incorrect");
-                return ResponseEntity.ok("Email ou mot de passe incorrect");
+                return ResponseEntity.status(401).body("Mot de passe incorrect");
             }
         } else {
             System.out.println("Utilisateur non trouvé");

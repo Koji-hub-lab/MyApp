@@ -20,12 +20,25 @@ public class UserEntity{
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "telephone",nullable = false)
+    private long telephone;
+
     @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition="ENUM('ADMIN', 'GESTIONNAIRE_ENTREPOT', 'GESTIONNAIRE_BOUTIQUE', 'VENDEUR', 'COMPTABLE', 'OPERATEUR') DEFAULT 'VENDEUR'")
+    private Role role = Role.VENDEUR;
+
+    @Enumerated(EnumType.STRING)
     @Column(columnDefinition="ENUM('ACTIF','INACTIF') DEFAULT 'ACTIF'")
     private Status status = Status.ACTIF;
+
+    @Column(name="created_at", nullable = false, updatable = false)
+    private java.time.LocalDateTime createdAt = java.time.LocalDateTime.now();  
+
+    @Column(name="last_login", nullable = true)
+    private java.time.LocalDateTime lastLogin;  
 
     // constructeur par defaut obligatoire pour JPA//
     public UserEntity(){}
@@ -37,6 +50,9 @@ public class UserEntity{
         this.email=email;
         this.password=password;
         this.status=status;
+        this.createdAt=java.time.LocalDateTime.now();
+        this.lastLogin=null;
+        this.role=Role.VENDEUR;
     }
 
     // Getter et Setter //
@@ -86,6 +102,30 @@ public class UserEntity{
 
     public void setStatus(Status status){
         this.status=status;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public java.time.LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.time.LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.time.LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(java.time.LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
 }
