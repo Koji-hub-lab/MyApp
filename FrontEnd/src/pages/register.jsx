@@ -16,7 +16,7 @@ function Register() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/users',
+        '/api/users',
         {
           method: 'POST',
           headers: {

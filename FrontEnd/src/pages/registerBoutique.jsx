@@ -14,7 +14,7 @@ function RegisterBoutique() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        'http://localhost:8080/api/boutiques',
+        '/api/boutiques',
         {
           method: 'POST',
           headers: {
